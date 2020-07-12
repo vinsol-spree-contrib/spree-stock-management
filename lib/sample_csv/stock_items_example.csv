@@ -1,0 +1,9 @@
+uid,stock_location_name,count_on_hand,backorderable
+ROR-00001,default,20,false
+ROR-00012,default,205,true
+1,default,200,
+ROR-00011,default,,
+ROR-00003,default,,false
+
+
+**Note** - Please specify the stock location name case sensitively.

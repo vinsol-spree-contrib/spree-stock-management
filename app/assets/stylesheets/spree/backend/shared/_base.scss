@@ -51,3 +51,11 @@ body {
   @extend .padding-none-horizontal;
   @extend .padding-none-vertical;
 }
+
+input.file-browse {
+  display: none;
+}
+
+a.sample-download {
+  padding-right: 13px;
+}

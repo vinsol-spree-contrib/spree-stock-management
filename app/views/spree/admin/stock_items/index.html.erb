@@ -1,5 +1,14 @@
 <% content_for :page_title do %>
-  <%= plural_resource_name(Spree::StockItem) %>
+  <%= Spree.t(:stock_item) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= form_tag import_admin_stock_items_path, multipart: true, class: 'form-inline', data: { hook: "csv_form" } do %>
+    <%= file_field_tag :file, class: 'file-browse' %>
+    <%= submit_tag Spree.t(:import), class: 'btn-success btn' %>
+    <br>
+    <%= link_to Spree.t(:example) , sample_csv_admin_stock_items_path, class: 'sample-download' %>
+  <% end %>
 <% end %>
 
 <% content_for :table_filter do %>
@@ -8,14 +17,15 @@
       <div data-hook="admin_stock_itemss_index_search" class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <%= f.label :variant_product_name_cont, Spree.t(:name) %>
-            <%= f.text_field :variant_product_name_cont, size: 15, class: "form-control js-quick-search-target" %>
+            <%= f.label :variant_product_name_cont, Spree.t(:product_name) %>
+            <%= hidden_field_tag :stock_location, @stock_location.name %>
+            <%= f.text_field :variant_product_name_cont, size: 15, class: "form-control js-quick-search-target js-filterable" %>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <%= f.label :variant_sku_cont, Spree.t(:sku) %>
-            <%= f.text_field :variant_sku_cont, size: 15, class: "form-control" %>
+            <%= f.text_field :variant_sku_cont, size: 15, class: "form-control js-filterable" %>
           </div>
         </div>
       </div>

@@ -29,6 +29,7 @@ require 'spree/testing_support/capybara_ext'
 require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/factories'
 require 'spree/testing_support/url_helpers'
+require "paperclip/matchers"
 
 require 'capybara/rspec'
 require 'capybara-screenshot'
@@ -54,6 +55,7 @@ RSpec.configure do |config|
 
   # Infer an example group's spec type from the file location.
   config.infer_spec_type_from_file_location!
+  config.include Paperclip::Shoulda::Matchers
 
   # == URL Helpers
   #
@@ -62,6 +64,7 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::TestingSupport::UrlHelpers
+  config.include ActionDispatch::TestProcess
 
   # == Requests support
   #

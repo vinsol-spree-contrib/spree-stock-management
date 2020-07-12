@@ -25,6 +25,7 @@ module Spree
         if stock_movement.save
           flash[:success] = flash_message_for(stock_movement, :successfully_created)
           respond_to do |format|
+            format.html { redirect_back fallback_location: spree.stock_admin_product_url(variant.product) }
             format.json { render json: { stock_item: stock_movement.stock_item, message: flash[:success] } }
           end
         else
@@ -36,8 +37,6 @@ module Spree
                 message: flash[:error]
               }, status: :unprocessable_entity
             }
-          end
-          respond_to do |format|
             format.html { redirect_back fallback_location: spree.stock_admin_product_url(variant.product) }
           end
         end
@@ -53,7 +52,27 @@ module Spree
         end
       end
 
+      def sample_csv
+        send_file STOCK_CSV_FILE[:sample_stock_file]
+      end
+
+      def import
+        begin
+          create_stock_updater
+          redirect_to admin_stock_items_path, notice: Spree.t(:email_sent, filename: @stock_updater.data_file_file_name)
+        rescue
+          redirect_to admin_stock_items_path, notice: "Invalid CSV file format."
+        end
+      end
+
       private
+
+        def create_stock_updater
+          @stock_updater = Spree::StockUpdater.create(data_file: params[:file])
+          NotifyFailedStocksService.delay(run_at: 1.minutes.from_now).new(@stock_updater.id, try_spree_current_user.email)
+        end
+
+
         def stock_movement_params
           params.require(:stock_movement).permit(permitted_stock_movement_attributes)
         end

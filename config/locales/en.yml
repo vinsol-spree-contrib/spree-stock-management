@@ -7,3 +7,13 @@ en:
     product_name: Product Name
     sku_and_options_text: SKU and Options
     select_stock_location: Select Stock Location
+    import: Import Stock CSV
+    example: Download Sample File
+    email_sent: "%{filename} has been successfully imported. Details will be sent shortly to you over an email."
+    mail_to_address: Email to recieve mails
+    stock_item: Stock Items
+    stock_location_not_found: Stock Location Not found
+    product_not_found: Product not found
+    stock_item_not_found: Stock Item not found
+    update_status: Your Stock import is complete. Below is a detailed report.
+
