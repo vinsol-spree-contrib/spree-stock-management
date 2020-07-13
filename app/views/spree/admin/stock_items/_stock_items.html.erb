@@ -18,7 +18,7 @@
         <tr id="stock-item-<%= stock_item.id %>" data-hook="admin_stock_management_index_rows" >
           <td class="image text-center">
             <% if stock_item.variant.images.present? %>
-              <%= image_tag stock_item.variant.images.first.attachment.url(:mini) %>
+              <%= image_tag(main_app.url_for(stock_item.variant.images.first.url(:mini))) %>
             <% end %>
           </td>
           <td class="text-center"><%= stock_item.product.name %></td>
