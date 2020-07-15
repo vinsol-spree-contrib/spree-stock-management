@@ -1,10 +1,10 @@
-<div class="row index-pagination-row">
-  <div class="col-sm-6">
-    <%= paginate collection, params: { stock_location: params[:stock_location] || @stock_location.id } %>
+<div class="row index-pagination-row mt-4">
+  <div class="col-6 text-left">
+    <%= paginate collection, params: { stock_location: params[:stock_location] || @stock_location.id }, theme: 'twitter-bootstrap-4' %>
   </div>
-  <div class="col-sm-6">
+  <div class="col-6">
     <div class="pagination-wrap">
-      <%= form_tag(per_page_dropdown_params(params), { method: :get, class: 'js-per-page-form form-inline' }) do %>
+      <%= form_tag(per_page_dropdown_params(params), { method: :get, class: 'js-per-page-form form-inline justify-content-end' }) do %>
         <%= per_page_dropdown %>
       <% end %>
       <div class="clearfix"></div>

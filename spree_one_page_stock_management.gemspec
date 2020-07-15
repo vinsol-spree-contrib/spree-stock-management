@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version     = SpreeOnePageStockManagement.version
   s.summary     = 'Add extension summary here'
   s.description = 'Add (optional) extension description here'
-  s.required_ruby_version = '>= 2.2.7'
+  s.required_ruby_version = '>= 2.5'
 
   s.author    = 'You'
   s.email     = 'you@example.com'
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '>= 3.1.0', '< 4.0'
+  s.add_dependency 'spree_core', '~> 4.0'
   s.add_dependency 'spree_extension'
 
   s.add_development_dependency 'capybara'
@@ -34,8 +34,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sass-rails'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'pg', '~> 0.18'
+  s.add_development_dependency 'pg', '>= 0.18'
   s.add_development_dependency 'mysql2'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'appraisal'
+  s.add_development_dependency 'bootstrap', '~> 4.3.1'
+  s.add_development_dependency 'jquery-rails'
+  s.add_development_dependency 'kaminari', '~> 1.2.1'
+  s.add_development_dependency 'bootstrap4-kaminari-views'
 end

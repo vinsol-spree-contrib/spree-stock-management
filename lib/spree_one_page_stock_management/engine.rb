@@ -15,6 +15,10 @@ module SpreeOnePageStockManagement
       end
     end
 
+    initializer "spree_one_page_stock_management.preferences", before: :load_config_initializers do
+      SpreeOnePageStockManagement::Config = Spree::SpreeOnePageStockManagementSetting.new
+    end
+
     config.to_prepare &method(:activate).to_proc
   end
 end
