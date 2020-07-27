@@ -13,6 +13,16 @@ module SpreeOnePageStockManagement
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
+
+      Spree::StockItem.class_eval do
+        def self.search_variant_product_name(query)
+          if defined?(SpreeGlobalize)
+            joins(variant: { product: :translations }).where("#{Spree::Product::Translation.table_name}.name LIKE :query", query: "%#{query}%")
+          else
+            variant_product_name_cont(query)
+          end
+        end
+      end
     end
 
     initializer "spree_one_page_stock_management.preferences", before: :load_config_initializers do
