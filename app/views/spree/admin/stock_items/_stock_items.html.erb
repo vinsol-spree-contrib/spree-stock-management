@@ -17,8 +17,12 @@
       <% @collection.each do |stock_item| %>
         <tr id="stock-item-<%= stock_item.id %>" data-hook="admin_stock_management_index_rows" >
           <td class="image text-center">
-            <% if stock_item.variant.images.present? %>
-              <%= image_tag main_app.url_for(stock_item.variant.images.first.url(:mini)) %>
+            <%= link_to edit_admin_product_path(stock_item.variant.product) do %>
+              <% if stock_item.variant.images.present? %>
+                <%= image_tag main_app.url_for(stock_item.variant.images.first.url(:mini)) %>
+              <% elsif stock_item.variant.product.images.present? %>
+                <%= image_tag main_app.url_for(stock_item.variant.product.images.first.url(:mini)) %>
+              <% end %>
             <% end %>
           </td>
           <td class="text-center"><%= stock_item.product.name %></td>
