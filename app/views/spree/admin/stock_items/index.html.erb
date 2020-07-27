@@ -28,8 +28,12 @@
 
 <div id='stock-items-div' class='container-fluid' >
   <div class="row">
-    <%= label_tag Spree.t(:select_stock_location) %>
-    <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
+    <div class="col-1">
+      <%= label_tag Spree.t(:select_stock_location) %>
+    </div>
+    <div class="col-4">
+      <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
+    </div>
   </div>
 </div>
 

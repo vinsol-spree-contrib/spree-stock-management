@@ -86,7 +86,7 @@ module Spree
           @search = @collection.ransack(params[:q])
           @collection = @search.result.
             page(params[:page]).
-            per(params[:per_page] || Spree::Config[:stock_items_per_page])
+            per(params[:per_page] || SpreeOnePageStockManagement::Config[:stock_items_per_page])
         end
 
         def stock_item_params
