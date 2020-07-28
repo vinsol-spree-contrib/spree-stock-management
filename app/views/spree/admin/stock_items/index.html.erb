@@ -5,6 +5,7 @@
 <% content_for :table_filter do %>
   <div data-hook="admin_products_sidebar">
     <%= search_form_for [:admin, @search] do |f| %>
+
       <div data-hook="admin_stock_itemss_index_search" class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -28,9 +29,11 @@
 
 <div id='stock-items-div' class='container-fluid' >
   <div class="row">
-    <div class="col-1">
+    <div class="col-4">
       <%= label_tag Spree.t(:select_stock_location) %>
     </div>
+  </div>
+  <div class="row">
     <div class="col-4">
       <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
     </div>

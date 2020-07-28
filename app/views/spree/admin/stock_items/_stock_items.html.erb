@@ -1,15 +1,15 @@
 <%= render partial: 'custom_table_options', locals: { collection: @collection } %>
 
-<div class="panel panel-default">
-  <table class="table table-bordered" id="listing_stock">
+<div class="table-responsive">
+  <table class="table" id="listing_stock">
     <thead>
       <tr data-hook="admin_product_stock_management_index_headers">
-        <th class="text-center"><%= Spree.t(:variant) %></th>
-        <th class="text-center"><%= Spree.t(:product_name) %></th>
-        <th colspan="2" class="text-center"><%= Spree.t(:sku_and_options_text) %></th>
-        <th class="text-center"><%= Spree.t(:current_count_on_hand) %></th>
-        <th colspan="3" class="text-center"><%= Spree.t(:quantity) %></th>
-        <th class="text-center"><%= Spree.t(:backorderable) %></th>
+        <th><%= Spree.t(:variant) %></th>
+        <th><%= sort_link @search, :variant_product_translations_name, Spree.t(:product_name) %></th>
+        <th colspan="2"><%= Spree.t(:sku_and_options_text) %></th>
+        <th><%= sort_link @search, :count_on_hand, Spree.t(:count_on_hand) %></th>
+        <th colspan="3"><%= Spree.t(:quantity) %></th>
+        <th><%= sort_link @search, :backorderable, Spree.t(:backorderable) %></th>
         <th class="actions text-center"></th>
       </tr>
     </thead>
@@ -25,14 +25,14 @@
               <% end %>
             <% end %>
           </td>
-          <td class="text-center"><%= stock_item.product.name %></td>
-          <td colspan="2" class="text-center">
+          <td><%= stock_item.product.name %></td>
+          <td colspan="2">
             <%= stock_item.variant.sku_and_options_text %>
           </td>
-          <td class="text-center" data-hook='current_count_on_hand'>
+          <td data-hook='current_count_on_hand'>
             <%= stock_item.count_on_hand %>
           </td>
-          <td colspan="3" class="text-center">
+          <td colspan="3">
             <div class='row'>
               <div class='col-md-8 padding-right-none'>
                 <div class="input-group" data-hook='stock-count'>
@@ -63,7 +63,7 @@
               </div>
             </div>
           </td>
-          <td class="text-center">
+          <td>
             <%= form_tag admin_stock_item_path(stock_item, format: :js), method: :put, class: 'toggle_stock_item_backorderable' do %>
               <%= check_box_tag 'stock_item[backorderable]', true,
                 stock_item.backorderable?,
