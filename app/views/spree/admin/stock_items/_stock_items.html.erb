@@ -63,7 +63,7 @@
               </div>
             </div>
           </td>
-          <td>
+          <td class="text-center">
             <%= form_tag admin_stock_item_path(stock_item, format: :js), method: :put, class: 'toggle_stock_item_backorderable' do %>
               <%= check_box_tag 'stock_item[backorderable]', true,
                 stock_item.backorderable?,
