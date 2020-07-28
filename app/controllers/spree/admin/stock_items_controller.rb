@@ -26,6 +26,7 @@ module Spree
           flash[:success] = flash_message_for(stock_movement, :successfully_created)
           respond_to do |format|
             format.json { render json: { stock_item: stock_movement.stock_item, message: flash[:success] } }
+            format.html { redirect_back fallback_location: spree.stock_admin_product_url(variant.product) }
           end
         else
           flash[:error] = Spree.t(:could_not_create_stock_movement)
@@ -36,8 +37,6 @@ module Spree
                 message: flash[:error]
               }, status: :unprocessable_entity
             }
-          end
-          respond_to do |format|
             format.html { redirect_back fallback_location: spree.stock_admin_product_url(variant.product) }
           end
         end
