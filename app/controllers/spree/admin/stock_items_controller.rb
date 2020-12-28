@@ -3,6 +3,7 @@ module Spree
     class StockItemsController < ResourceController
       respond_to :html, :json
       before_action :determine_backorderable, only: :update
+      before_action :variant_storage_location, only: :index
 
       def index
         respond_to do |format|
@@ -88,12 +89,23 @@ module Spree
             per(params[:per_page] || SpreeOnePageStockManagement::Config[:stock_items_per_page])
         end
 
+        def variant_storage_location
+          @variant_storage_location =
+            Spree::Variant.all
+                          .map{ |v| [v.storage_location, v.storage_location] }
+                          .uniq
+                          .delete_if { |k, v| v.empty? }
+                          .sort_by{ |k, v| k.downcase }
+
+        end
+
         def stock_item_params
           params.require(:stock_item).permit(permitted_stock_item_attributes)
         end
 
         def determine_backorderable
-          stock_item.backorderable = params[:stock_item].present? && params[:stock_item][:backorderable].present?
+          stock_item.backorderable =
+            params[:stock_item].present? && params[:stock_item][:backorderable].present?
         end
     end
   end
