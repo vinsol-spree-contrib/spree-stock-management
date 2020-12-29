@@ -94,7 +94,7 @@ module Spree
             Spree::Variant.all
                           .map{ |v| [v.storage_location, v.storage_location] }
                           .uniq
-                          .delete_if { |k, v| v.empty? }
+                          .delete_if { |k, v| v.blank? }
                           .sort_by{ |k, v| k.downcase }
 
         end
