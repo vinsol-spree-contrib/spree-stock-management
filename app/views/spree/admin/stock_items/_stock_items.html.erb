@@ -5,9 +5,9 @@
     <thead>
       <tr data-hook="admin_product_stock_management_index_headers">
         <th><%= Spree.t(:variant) %></th>
-        <th><%= sort_link @search, :variant_product_translations_name, Spree.t(:product_name) %></th>
+        <th><%= sort_link @search, :variant_product_name, Spree.t(:product_name) %></th>
         <% if defined?(SpreeProducer) %>
-          <th><%= Spree.t(:producer) %></th>
+        <th><%= sort_link @search, :variant_product_producer_name, Spree.t(:producer) %></th>
         <% end %>
         <th colspan="2"><%= Spree.t(:sku_and_options_text) %></th>
         <th><%= sort_link @search, :count_on_hand, Spree.t(:count_on_hand) %></th>
