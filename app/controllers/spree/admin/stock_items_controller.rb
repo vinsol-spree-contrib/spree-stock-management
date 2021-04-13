@@ -4,6 +4,7 @@ module Spree
       respond_to :html, :json
       before_action :determine_backorderable, only: :update
       before_action :variant_storage_location, only: :index
+      before_action :producer_names, only: :index
 
       def index
         respond_to do |format|
@@ -96,6 +97,16 @@ module Spree
                           .uniq
                           .delete_if { |k, v| v.blank? }
                           .sort_by{ |k, v| k.downcase }
+
+        end
+
+        def producer_names
+          @producer_names =
+            Spree::Producer.all
+                           .map{ |v| [v.name, v.name] }
+                           .uniq
+                           .delete_if { |k, v| v.blank? }
+                           .sort_by{ |k, v| k.downcase }
 
         end
 
