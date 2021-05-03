@@ -1,6 +1,6 @@
 <div class="row index-pagination-row mt-4">
   <div class="col-6 text-left">
-    <%= paginate collection, params: { stock_location: params[:stock_location] || @stock_location.id }, theme: 'twitter-bootstrap-4' %>
+    <%= paginate collection, params: { stock_location: params[:stock_location] || @stock_location&.id }, theme: 'twitter-bootstrap-4' %>
   </div>
   <div class="col-6">
     <div class="pagination-wrap">
