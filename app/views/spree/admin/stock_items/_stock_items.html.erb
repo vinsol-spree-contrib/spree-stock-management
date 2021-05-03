@@ -41,13 +41,19 @@
           <td class='text-center' data-hook='current_count_on_hand'>
             <%= stock_item.count_on_hand %>
           </td>
-          <td class='text-center' data-hook='current_count_on_hand'>
-            <%= stock_item.variant.storage_location %>
+          <td class='text-center' data-hook='storage_location'>
+            <%= form_tag admin_stock_item_path(stock_item, format: :js), method: :put, remote: true do %>
+              <%= text_field_tag 'stock_item[storage_location]', stock_item.storage_location, 
+                id: "stock_item_storage_location_#{stock_item.stock_location.id}",
+                data: { hook: 'storage_location', behavior: 'form' } %>
+                <%= submit_tag Spree.t(:save, scope: :actions) %>
+            <% end if can? :update, stock_item %>
           </td>
           <td colspan="3">
             <div class='row'>
               <div class='col-md-10 padding-right-none'>
                 <div class="input-group" data-hook='stock-count'>
+                  <%= label_tag 'Cantidad' %>
                   <%= text_field_tag 'total_stock_quantity', stock_item.count_on_hand, id: "number_spinner",
                     size: "10", class: "text-center form-control input-number",
                     data: { hook: 'number_spinner', old_value: stock_item.count_on_hand } %>

@@ -3,6 +3,7 @@ module Spree
     class StockItemsController < ResourceController
       respond_to :html, :json
       before_action :determine_backorderable, only: :update
+      before_action :determine_storage_location, only: :update
       before_action :variant_storage_location, only: :index
       before_action :producer_names, only: :index
 
@@ -117,6 +118,11 @@ module Spree
         def determine_backorderable
           stock_item.backorderable =
             params[:stock_item].present? && params[:stock_item][:backorderable].present?
+        end
+
+        def determine_storage_location
+          return unless params[:stock_item].present? && params[:stock_item][:storage_location].present?
+          stock_item.update_columns(storage_location: params[:stock_item][:storage_location])
         end
     end
   end

@@ -14,6 +14,10 @@ module SpreeOnePageStockManagement
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
 
+      unless Spree::PermittedAttributes.stock_item_attributes.include?(:storage_location)
+        Spree::PermittedAttributes.stock_item_attributes << :storage_location
+      end
+
       Spree::StockItem.class_eval do
         # def self.search_variant_product_name(query)
         #   if defined?(SpreeGlobalize)
