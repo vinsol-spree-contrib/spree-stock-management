@@ -79,10 +79,10 @@ module Spree
             @stock_location_class.find_by(id: params[:stock_location_id])
 
           elsif params[:clear_select_st].present? ||
-            spree_current_user.stock_locations_selecteds.count > 1
+            spree_current_user.stock_locations.count > 1
             nil
           else
-            spree_current_user.stock_locations_selecteds.first ||
+            spree_current_user.stock_locations.first ||
             @stock_location_class.first
           end
         end
