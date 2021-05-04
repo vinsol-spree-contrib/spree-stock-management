@@ -49,7 +49,9 @@
   </div>
   <div class="row">
     <div class="col-4">
-      <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location&.id), include_blank: true, class: 'select2 stock-location-selector', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
+       <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
+
+      <% #= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location&.id), include_blank: true, class: 'select2 stock-location-selector', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
     </div>
   </div>
 </div>
@@ -61,5 +63,5 @@
 <%= javascript_include_tag 'spree/backend/stock_inventory_manager' %>
 
 <script>
-  $('.stock-location-selector')[0].firstChild.dataset['url'] = '<%= admin_stock_items_url(clear_select_st: true) %>'
+  //$('.stock-location-selector')[0].firstChild.dataset['url'] = '<%= admin_stock_items_url(clear_select_st: true) %>'
 </script>

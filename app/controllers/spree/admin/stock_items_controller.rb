@@ -6,8 +6,8 @@ module Spree
       before_action :determine_storage_location, only: :update
       before_action :variant_storage_location, only: :index
       before_action :producer_names, only: :index
-      before_action :stock_location
-      before_action :set_stock_location_cookie
+      #before_action :stock_location
+      #before_action :set_stock_location_cookie
 
       def index
         respond_to do |format|
@@ -24,9 +24,11 @@ module Spree
       end
 
       def create
-        stock_movement = @stock_location.stock_movements.build(stock_movement_params)
-        stock_movement.stock_item = @stock_location.set_up_stock_item(variant)
+        stock_movement = stock_location.stock_movements.build(stock_movement_params)
+        stock_movement.stock_item = stock_location.set_up_stock_item(variant)
 
+#        stock_movement = @stock_location.stock_movements.build(stock_movement_params)
+#        stock_movement.stock_item = @stock_location.set_up_stock_item(variant)
         if stock_movement.save
           flash[:success] = flash_message_for(stock_movement, :successfully_created)
           respond_to do |format|
@@ -68,23 +70,27 @@ module Spree
 
         def stock_location
           @stock_location_class ||= StockLocation.accessible_by(current_ability, :read)
-          @stock_location ||=
-
-          if params[:stock_location].blank? && params[:stock_location_id].blank? &&
-            params[:clear_select_st].blank? && cookies[:stock_location].present?
-            @stock_location_class.find_by(id: cookies[:stock_location])
-
-          elsif params[:stock_location].present? || params[:stock_location_id].present?
+          @stock_location ||= @stock_location_class.find_by(id: params[:stock_location_id]) ||
             @stock_location_class.find_by(name: params[:stock_location]) ||
-            @stock_location_class.find_by(id: params[:stock_location_id])
-
-          elsif params[:clear_select_st].present? ||
-            spree_current_user.stock_locations.count > 1
-            nil
-          else
-            spree_current_user.stock_locations.first ||
             @stock_location_class.first
-          end
+
+          # @stock_location ||=
+
+          # if params[:stock_location].blank? && params[:stock_location_id].blank? &&
+          #   params[:clear_select_st].blank? && cookies[:stock_location].present?
+          #   @stock_location_class.find_by(id: cookies[:stock_location])
+
+          # elsif params[:stock_location].present? || params[:stock_location_id].present?
+          #   @stock_location_class.find_by(name: params[:stock_location]) ||
+          #   @stock_location_class.find_by(id: params[:stock_location_id])
+
+          # elsif params[:clear_select_st].present? ||
+          #   spree_current_user.stock_locations.count > 1
+          #   nil
+          # else
+          #   spree_current_user.stock_locations.first ||
+          #   @stock_location_class.first
+          # end
         end
 
         def set_stock_location_cookie
@@ -100,18 +106,24 @@ module Spree
           # params[:q] can be blank upon pagination
           params[:q] = {} if params[:q].blank?
 
-          @collection =
-            if @stock_location.blank?
-              StockLocation.accessible_by(current_ability, :read).first.stock_items.
-              accessible_by(current_ability, :read).
-              includes({ variant: [:product, :images, option_values: :option_type] }).
-              order("#{ Spree::Variant.table_name }.product_id")
-            else
-              @stock_location.stock_items.
-              accessible_by(current_ability, :read).
-              includes({ variant: [:product, :images, option_values: :option_type] }).
-              order("#{ Spree::Variant.table_name }.product_id")
-            end
+          @collection = stock_location.
+            stock_items.
+            accessible_by(current_ability, :read).
+            includes({ variant: [:product, :images, option_values: :option_type] }).
+            order("#{ Spree::Variant.table_name }.product_id")
+
+          # @collection =
+          #   if @stock_location.blank?
+          #     StockLocation.accessible_by(current_ability, :read).first.stock_items.
+          #     accessible_by(current_ability, :read).
+          #     includes({ variant: [:product, :images, option_values: :option_type] }).
+          #     order("#{ Spree::Variant.table_name }.product_id")
+          #   else
+          #     @stock_location.stock_items.
+          #     accessible_by(current_ability, :read).
+          #     includes({ variant: [:product, :images, option_values: :option_type] }).
+          #     order("#{ Spree::Variant.table_name }.product_id")
+          #   end
 
           @search = @collection.ransack(params[:q])
           @collection = @search.result.
