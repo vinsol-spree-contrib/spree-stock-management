@@ -70,10 +70,15 @@ module Spree
 
         def stock_location
           @stock_location_class ||= StockLocation.accessible_by(current_ability, :read)
-          @stock_location ||= @stock_location_class.find_by(id: params[:stock_location_id]) ||
-            @stock_location_class.find_by(id: params[:q][:stock_location_id_eq]) ||
-            @stock_location_class.find_by(name: params[:stock_location]) ||
-            @stock_location_class.first
+          @stock_location ||=
+            if params[:q].blank? || params[:q].present? && params[:q][:stock_location_id_eq].blank?
+              nil
+            else
+              @stock_location_class.find_by(id: params[:stock_location_id]) ||
+              @stock_location_class.find_by(id: params[:q][:stock_location_id_eq]) ||
+              @stock_location_class.find_by(name: params[:stock_location]) ||
+              @stock_location_class.first
+            end
 
           # @stock_location ||=
 
@@ -107,24 +112,24 @@ module Spree
           # params[:q] can be blank upon pagination
           params[:q] = {} if params[:q].blank?
 
-          @collection = stock_location.
-            stock_items.
-            accessible_by(current_ability, :read).
-            includes({ variant: [:product, :images, option_values: :option_type] }).
-            order("#{ Spree::Variant.table_name }.product_id")
+          # @collection = stock_location.
+          #   stock_items.
+          #   accessible_by(current_ability, :read).
+          #   includes({ variant: [:product, :images, option_values: :option_type] }).
+          #   order("#{ Spree::Variant.table_name }.product_id")
 
-          # @collection =
-          #   if @stock_location.blank?
-          #     StockLocation.accessible_by(current_ability, :read).first.stock_items.
-          #     accessible_by(current_ability, :read).
-          #     includes({ variant: [:product, :images, option_values: :option_type] }).
-          #     order("#{ Spree::Variant.table_name }.product_id")
-          #   else
-          #     @stock_location.stock_items.
-          #     accessible_by(current_ability, :read).
-          #     includes({ variant: [:product, :images, option_values: :option_type] }).
-          #     order("#{ Spree::Variant.table_name }.product_id")
-          #   end
+          @collection =
+            if stock_location.blank?
+              StockLocation.accessible_by(current_ability, :read).first.stock_items.
+              accessible_by(current_ability, :read).
+              includes({ variant: [:product, :images, option_values: :option_type] }).
+              order("#{ Spree::Variant.table_name }.product_id")
+            else
+              stock_location.stock_items.
+              accessible_by(current_ability, :read).
+              includes({ variant: [:product, :images, option_values: :option_type] }).
+              order("#{ Spree::Variant.table_name }.product_id")
+            end
 
           @search = @collection.ransack(params[:q])
           @collection = @search.result.

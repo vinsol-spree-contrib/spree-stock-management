@@ -32,7 +32,11 @@
               <% end %>
             <% end %>
           </td>
-          <td><%= "#{stock_item.product.name} | Ubicación: #{stock_item.stock_location.name}" %></td>
+          <td>
+            <%= stock_item.product.name %>
+            </br>
+            <%= stock_item.stock_location.name %>
+          </td>
           <% if defined?(SpreeProducer) %>
             <td><%= stock_item&.variant&.product&.producer&.name %></td>
           <% end %>
