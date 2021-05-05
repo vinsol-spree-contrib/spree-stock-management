@@ -33,6 +33,13 @@
               { include_blank: Spree.t('match_choices.all') }, class: 'select2 js-filterable' %>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= label_tag :stock_location_id_eq, Spree.t(:stock_location) %>
+            <%= f.select :stock_location_id_eq, Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id] },
+              { include_blank: Spree.t('match_choices.all') }, class: 'select2 js-filterable' %>
+          </div>
+        </div>
       </div>
       <div data-hook="admin_stock_items_index_search_buttons" class="form-actions">
         <%= button Spree.t(:search), 'search' %>
@@ -44,12 +51,13 @@
 <div id='stock-items-div' class='container-fluid' >
   <div class="row">
     <div class="col-4">
-      <%= label_tag Spree.t(:select_stock_location) %>
+      <% #= label_tag Spree.t(:select_stock_location) %>
     </div>
   </div>
   <div class="row">
     <div class="col-4">
-       <%= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
+       <% #= Ppal %>
+       <% #= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location.id), class: 'select2', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
 
       <% #= select_tag :stock_location, options_for_select(Spree::StockLocation.all.map { |stock_location| [stock_location.name, stock_location.id, data: { url: admin_stock_items_url(q: search_params, per_page: params[:per_page], stock_location: stock_location.name) }] }, @stock_location&.id), include_blank: true, class: 'select2 stock-location-selector', id: 'stock-location-selector', data: { hook: 'stock-location-selector' } %>
     </div>
