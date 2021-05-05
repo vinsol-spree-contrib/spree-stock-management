@@ -71,6 +71,7 @@ module Spree
         def stock_location
           @stock_location_class ||= StockLocation.accessible_by(current_ability, :read)
           @stock_location ||= @stock_location_class.find_by(id: params[:stock_location_id]) ||
+            @stock_location_class.find_by(id: params[:q][:stock_location_id_eq]) ||
             @stock_location_class.find_by(name: params[:stock_location]) ||
             @stock_location_class.first
 
