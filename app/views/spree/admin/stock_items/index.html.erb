@@ -73,6 +73,8 @@
 <script>
   //$('.stock-location-selector')[0].firstChild.dataset['url'] = '<%= admin_stock_items_url(clear_select_st: true) %>'
   $(function() {
-    $('.js-show-index-filters').trigger( "click" );
+    <% if @stock_location.blank? %>
+      $('.js-show-index-filters').trigger( "click" );
+    <% end %>
   })
 </script>
