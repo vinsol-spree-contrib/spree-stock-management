@@ -26,6 +26,7 @@ module Spree
       def create
         stock_movement = stock_location.stock_movements.build(stock_movement_params)
         stock_movement.stock_item = stock_location.set_up_stock_item(variant)
+        stock_movement.originator = spree_current_user
 
 #        stock_movement = @stock_location.stock_movements.build(stock_movement_params)
 #        stock_movement.stock_item = @stock_location.set_up_stock_item(variant)
